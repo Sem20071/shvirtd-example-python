@@ -1,7 +1,7 @@
 FROM python:3.12-slim
 WORKDIR /app
 COPY . .
-RUN pip install --upgrade pip && pip install -r requirements.txt
+RUN pip install --upgrade pip && pip install -r requirements.txt && pip install pycurl
 #COPY main.py .
 #  Ваш код здесь #
 
