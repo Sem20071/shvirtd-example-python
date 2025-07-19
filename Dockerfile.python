@@ -1,8 +1,7 @@
 FROM python:3.12-slim
 WORKDIR /app
-COPY requirements.txt .
-RUN pip install -r requirements.txt
-COPY nginx/ingress/nginx.conf 
+COPY . .
+RUN apt-get update && apt-get install python3-pip -y &&  pip install --upgrade pip && pip install -r requirements.txt
 COPY main.py .
 #  Ваш код здесь #
 
