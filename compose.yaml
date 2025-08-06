@@ -1,6 +1,6 @@
-version: "3"
-include:
-  - proxy.yaml
+#version: "3"
+#include:
+#  - proxy.yaml
 services:
   web:
     build:
@@ -9,37 +9,75 @@ services:
     networks:
       backend:
         ipv4_address: 172.20.0.5
+    ports:
+      - "5000:5000"
     restart: on-failure
     env_file:
       - .env
     environment:
-      DB_HOST: db
-      DB_NAME: ${MYSQL_DATABASE}
-      DB_USER: ${MYSQL_USER}
-      DB_PASSWORD: ${MYSQL_PASSWORD}
-    depends_on:
-      - db
-
-  db:
-    image: mysql:8
+      DB_HOST: rc1a-4d3sv1q7bhjuauj5.mdb.yandexcloud.net
+      DB_NAME: example
+      DB_USER: administrator
+      DB_PASSWORD: "111zzz**"
+#     depends_on:
+#       - db
+  reverse-proxy:
+    image: haproxy:2.4
+    restart: always
     networks:
-      backend:
-        ipv4_address: 172.20.0.10
-    restart: on-failure
-    env_file:
-      - .env
-    environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
-      MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-#    volumes:
-#      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+        backend:
+    ports:
+    - "127.0.0.1:8080:8080"
+    volumes:
+    - ./haproxy/reverse/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg:rw 
+
+  ingress-proxy:
+    image: nginx:1.21.1
+    restart: always
+    network_mode: host
+    volumes:
+    - ./nginx/ingress/default.conf:/etc/nginx/conf.d/default.conf:rw
+    - ./nginx/ingress/nginx.conf:/etc/nginx/nginx.conf:rw
+
+#   db:
+#     image: mysql:8
+#     networks:
+#       backend:
+#         ipv4_address: 172.20.0.10
+#     restart: on-failure
+#     env_file:
+#       - .env
+#     environment:
+#       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+#       MYSQL_DATABASE: ${MYSQL_DATABASE}
+#       MYSQL_USER: ${MYSQL_USER}
+#       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+# #    volumes:
+# #      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  # reverse-proxy:
+  #   image: haproxy:2.4
+  #   restart: always
+  #   networks:
+  #       backend: 
+  #   ports:
+  #   - "127.0.0.1:8080:8080"
+  #   volumes:
+  #   - ./haproxy/reverse/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg:rw 
+
+  # ingress-proxy:
+  #   image: nginx:1.21.1
+  #   restart: always
+  #   network_mode: host
+  #   volumes:
+  #   - ./nginx/ingress/default.conf:/etc/nginx/conf.d/default.conf:rw
+  #   - ./nginx/ingress/nginx.conf:/etc/nginx/nginx.conf:rw
+
 
 networks:
-  backend:
-#    name: backend
-    driver: bridge
-    ipam:
-     config:
-       - subnet: 172.20.0.0/24
+   backend:
+     name: backend
+     driver: bridge
+     ipam:
+      config:
+        - subnet: 172.20.0.0/24

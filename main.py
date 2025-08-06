@@ -9,9 +9,9 @@ from typing import Optional
 
 # --- 1. Конфигурация ---
 # Считываем конфигурацию БД из переменных окружения
-db_host = os.environ.get('DB_HOST', '127.0.0.1')
-db_user = os.environ.get('DB_USER', 'app')
-db_password = os.environ.get('DB_PASSWORD', 'very_strong')
+db_host = os.environ.get('DB_HOST', 'rc1a-4d3sv1q7bhjuauj5.mdb.yandexcloud.net')
+db_user = os.environ.get('DB_USER', 'administrator')
+db_password = os.environ.get('DB_PASSWORD', '111zzz**')
 db_name = os.environ.get('DB_NAME', 'example')
 
 @asynccontextmanager
