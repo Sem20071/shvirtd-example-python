@@ -9,10 +9,10 @@ from typing import Optional
 
 # --- 1. Конфигурация ---
 # Считываем конфигурацию БД из переменных окружения
-db_host = os.environ.get('db_host', 'rc1a-4d3sv1q7bhjuauj5.mdb.yandexcloud.net')
-db_user = os.environ.get('db_user', 'administrator')
-db_password = os.environ.get('db_password', '111zzz**')
-db_name = os.environ.get('db_name', 'example')
+db_host = os.environ.get('DB_HOST', 'rc1a-4d3sv1q7bhjuauj5.mdb.yandexcloud.net')
+db_user = os.environ.get('DB_USER', 'administrator')
+db_password = os.environ.get('DB_PASS', '111zzz**')
+db_name = os.environ.get('DB_NAME', 'example')
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
