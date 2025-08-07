@@ -9,8 +9,8 @@ services:
     networks:
       backend:
         ipv4_address: 172.20.0.5
-    ports:
-      - "5000:5000"
+#    ports:
+#      - "5000:5000"
     restart: on-failure
     env_file:
       - .env
